@@ -13,7 +13,7 @@ _term() {
 
 if [ ! -z "$LOG_FILE" ] && [ ! -z "$LOG_LEVEL" ]; then
   s6-setuidgid abc /usr/bin/transmission-daemon \
-  -logfile="$LOG_FILE" -log-${LOG_LEVEL} \
+  --logfile="$LOG_FILE" --log-${LOG_LEVEL} \
   -g /config -c /watch -f &
 
   wait
