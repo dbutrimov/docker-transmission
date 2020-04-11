@@ -7,7 +7,7 @@
 [![GitHub](https://img.shields.io/static/v1.svg?style=flat-square&color=E68523&label=linuxserver.io&message=GitHub&logo=github&logoColor=FFFFFF)](https://github.com/linuxserver "view the source for all of our repositories.")
 [![Open Collective](https://img.shields.io/opencollective/all/linuxserver.svg?style=flat-square&color=E68523&label=Supporters&logo=open%20collective&logoColor=FFFFFF)](https://opencollective.com/linuxserver "please consider helping us by either donating or contributing to our budget")
 
-The [LinuxServer.io](https://linuxserver.io) team brings you another container release featuring :-
+The [LinuxServer.io](https://linuxserver.io) team brings you another container release featuring:
 
  * regular and timely application updates
  * easy user mappings (PGID, PUID)
@@ -87,7 +87,7 @@ Compatible with docker-compose v2 schemas.
 
 ```
 ---
-version: "2"
+version: "2.1"
 services:
   transmission:
     image: linuxserver/transmission
@@ -166,17 +166,7 @@ If you choose to use transmission-web-control as your default UI, just note that
 
 ## Securing the webui with a username/password.
 
-this requires 3 settings to be changed in the settings.json file.
-
-`Make sure the container is stopped before editing these settings.`
-
-`"rpc-authentication-required": true,` - check this, the default is false, change to true.
-
-`"rpc-username": "transmission",` substitute transmission for your chosen user name, this is just an example.
-
-`rpc-password` will be a hash starting with {, replace everything including the { with your chosen password, keeping the quotes.
-
-Transmission will convert it to a hash when you restart the container after making the above edits.
+Use the `USER` and `PASS` variables in docker run/create/compose to set authentication. Do not manually edit the `settings.json` to input user/pass, otherwise transmission cannot be stopped cleanly by the s6 supervisor.
 
 ## Updating Blocklists Automatically
 
@@ -186,6 +176,11 @@ The automatic update is a shell script that downloads a blocklist from the url s
 
 The automatic update will run once a day at 3am local server time.
 
+
+## Docker Mods
+[![Docker Mods](https://img.shields.io/badge/dynamic/yaml?style=for-the-badge&color=E68523&label=mods&query=%24.mods%5B%27transmission%27%5D.mod_count&url=https%3A%2F%2Fraw.githubusercontent.com%2Flinuxserver%2Fdocker-mods%2Fmaster%2Fmod-list.yml)](https://mods.linuxserver.io/?mod=transmission "view available mods for this container.")
+
+We publish various [Docker Mods](https://github.com/linuxserver/docker-mods) to enable additional functionality within the containers. The list of Mods available for this image (if any) can be accessed via the dynamic badge above.
 
 
 ## Support Info
@@ -252,6 +247,9 @@ Once registered you can define the dockerfile to use with `-f Dockerfile.aarch64
 
 ## Versions
 
+* **30.03.20:** - Internalize blocklist-update.sh.
+* **29.03.20:** - Update auth info in readme.
+* **19.12.19:** - Rebasing to alpine 3.11.
 * **04.10.19:** - Update package label.
 * **21.08.19:** - Add optional user/pass environment variables, fix transmission shut down if user/pass are set.
 * **19.07.19:** - Send SIGTERM in blocklist update to properly close pid.
